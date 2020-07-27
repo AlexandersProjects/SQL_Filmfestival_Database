@@ -1,0 +1,104 @@
+USE Filmfestival
+GO
+
+DECLARE	@Erfolg bit;
+DECLARE	@Rückmeldung VARCHAR(MAX);
+
+	--@Bezeichnung nvarchar(50),
+	--@Beginn_input datetime,
+	--@Ende_input datetime,
+	--@RaumID int = NULL,
+	--@FilmID int = NULL,
+	--@Kommentar text = NULL,
+	--@Erfolg bit OUTPUT,
+	--@Rückmeldung VARCHAR(MAX) OUTPUT
+
+---- Test alles falsch
+--EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+--	'Dies ist unser Test', -- Bezeichnung
+--	'04.09.1998 20:30', --Beginn
+--	'04.09.1998 20:45', --Ende
+--	10, --RaumID
+--	100, -- FilmID
+--	'Schöner Test', --Kommentar
+--	@Erfolg OUTPUT,
+--	@Rückmeldung OUTPUT;
+
+---- Test 2 richtiges Startdatum
+--EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+--	'Dies ist unser Test', -- Bezeichnung
+--	'04.09.2020 10:00', --Beginn
+--	'04.09.1998 20:45', --Ende
+--	10, --RaumID
+--	100, -- FilmID
+--	'Schöner Test', --Kommentar
+--	@Erfolg OUTPUT,
+--	@Rückmeldung OUTPUT;
+
+---- Test 3 richtige Datumsangaben
+--EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+--	'Dies ist unser Test', -- Bezeichnung
+--	'04.09.2020 10:00', --Beginn
+--	'04.09.2020 11:00', --Ende
+--	10, --RaumID
+--	100, -- FilmID
+--	'Schöner Test', --Kommentar
+--	@Erfolg OUTPUT,
+--  @Rückmeldung OUTPUT;
+
+---- Test 4 richtige RaumID
+--EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+--	'Dies ist unser Test', -- Bezeichnung
+--	'04.09.2020 10:00', --Beginn
+--	'04.09.2020 11:00', --Ende
+--	3, --RaumID
+--	100, -- FilmID
+--	'Schöner Test', --Kommentar
+--	@Erfolg OUTPUT,
+--	@Rückmeldung OUTPUT;
+
+---- Test 5 keine RaumID übergeben
+--EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+--	'Dies ist unser Test', -- Bezeichnung
+--	'04.09.2020 10:00', --Beginn
+--	'04.09.2020 11:00', --Ende
+--	NULL, --RaumID
+--	100, -- FilmID
+--	'Schöner Test', --Kommentar
+--	@Erfolg OUTPUT,
+--	@Rückmeldung OUTPUT;
+
+---- Test 6 alles richtig aber FilmID ohne RaumID
+--EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+--	'Dies ist unser Test', -- Bezeichnung
+--	'04.09.2020 10:00', --Beginn
+--	'04.09.2020 11:00', --Ende
+--	NULL, --RaumID
+--	5, -- FilmID
+--	'Schöner Test', --Kommentar
+--	@Erfolg OUTPUT,
+--	@Rückmeldung OUTPUT;
+
+---- Test 7 alles richtig nur Raum ist belegt
+--EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+--	'Dies ist unser Test', -- Bezeichnung
+--	'04.09.2020 21:45', --Beginn
+--	'04.09.2020 22:15', --Ende
+--	4, --RaumID
+--	5, -- FilmID
+--	'Schöner Test', --Kommentar
+--	@Erfolg OUTPUT,
+--	@Rückmeldung OUTPUT;
+
+-- Test 8, theoretisch erfolgreich
+EXEC [dbo].[sp_Programmpunkt_hinzufügen]
+	'Check der Technik', -- Bezeichnung
+	'04.09.2020 10:00', --Beginn
+	'04.09.2020 11:00', --Ende
+	4, --RaumID
+	NULL, -- FilmID
+	'Erfolgreicher Test', --Kommentar
+	@Erfolg OUTPUT,
+	@Rückmeldung OUTPUT;
+
+SELECT @Erfolg AS 'Programmpunkt erstellt', @Rückmeldung AS 'Rückgabemeldung';
